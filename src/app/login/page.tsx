@@ -141,7 +141,7 @@ export default function LoginPage() {
               onClick={() => router.push('/register')}
               className="text-xs font-semibold text-emerald-700 hover:text-emerald-800 transition-colors"
             >
-              Don't have an admin account? Register
+              Don&apos;t have an admin account? Register
             </button>
           </div>
         </div>

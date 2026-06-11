@@ -13,6 +13,7 @@ import {
   X, Upload, Send, DollarSign, Shield, Phone, MapPin, Key,
   Minus,
 } from 'lucide-react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Box, ExpenseType, IssueType, UrgencyLevel } from '@/types';
 
@@ -597,7 +598,7 @@ export default function CollectorDashboard() {
             </label>
             {receiptPreview && (
               <div className="mt-2 relative">
-                <img src={receiptPreview} alt="Receipt" className="w-full h-32 object-cover rounded-xl" />
+                <Image src={receiptPreview} alt="Receipt" width={400} height={128} unoptimized className="w-full h-32 object-cover rounded-xl" />
                 <button onClick={() => setReceiptPreview(null)} className="absolute top-1 right-1 p-1 bg-white rounded-full shadow"><X size={14} /></button>
               </div>
             )}

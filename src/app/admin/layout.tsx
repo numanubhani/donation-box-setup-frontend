@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { useAuthStore, useAppStore, useSessionBootstrap } from '@/store/useStore';
+import { useSessionBootstrap } from '@/store/useStore';
 import { useRealtimeSync } from '@/hooks/useRealtimeSync';
 import Sidebar from '@/components/shared/Sidebar';
 import TopBar from '@/components/shared/TopBar';

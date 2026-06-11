@@ -1,7 +1,14 @@
 import { Message } from '@/types';
 import { useAppStore } from '@/store/useStore';
 
-const WS_BASE = 'ws://localhost:8000/ws/app/';
+function getWsBase(): string {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000/api';
+  const url = new URL(apiUrl);
+  url.protocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
+  url.pathname = '/ws/app/';
+  url.search = '';
+  return url.toString();
+}
 
 let syncTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -41,5 +48,5 @@ export function handleRealtimeEvent(data: {
 }
 
 export function createAppWebSocket(accessToken: string): WebSocket {
-  return new WebSocket(`${WS_BASE}?token=${encodeURIComponent(accessToken)}`);
+  return new WebSocket(`${getWsBase()}?token=${encodeURIComponent(accessToken)}`);
 }

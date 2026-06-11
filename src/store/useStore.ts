@@ -9,7 +9,7 @@ import {
 } from '@/types';
 
 
-const API_BASE = 'http://localhost:8000/api';
+const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000/api';
 
 interface AuthState {
   isLoggedIn: boolean;
@@ -332,7 +332,7 @@ export const useAppStore = create<AppState>()((set, get) => ({
         const dateObj = new Date(c.collectionDate);
         const mName = months[dateObj.getMonth()];
         if (mName) {
-          monthlyDataMap[mName] += parseFloat(c.amount as any) || 0;
+          monthlyDataMap[mName] += Number(c.amount) || 0;
         }
       });
 
