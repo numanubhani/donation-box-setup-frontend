@@ -10,7 +10,7 @@ import StatsCard from '@/components/shared/StatsCard';
 import {
   QrCode, TrendingUp, Receipt, AlertTriangle, Camera,
   Check, Clock, AlertCircle, ExternalLink,
-  X, Upload, Send, DollarSign, Shield, Phone, MapPin,
+  X, Upload, Send, DollarSign, Shield, Phone, MapPin, Key,
   Minus,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -164,6 +164,8 @@ export default function CollectorDashboard() {
     const donorLabel = scannedBox!.donorName || scannedBox!.name;
     if (result.smsSent) {
       showToast(`Collection saved! Thank-you SMS sent to ${donorLabel}.`, 'success');
+    } else if (result.smsReason === 'below_minimum') {
+      showToast('Collection saved. SMS is only sent for amounts of PKR 3,000 or more.', 'success');
     } else if (result.smsReason === 'disabled') {
       showToast('Collection saved. SMS is turned off in Admin → SMS Settings.', 'warning');
     } else if (result.smsReason === 'not_configured') {
@@ -397,6 +399,12 @@ export default function CollectorDashboard() {
                     )}
 
                     <div className="space-y-1.5 text-xs text-slate-600">
+                      {box.keyNumber && (
+                        <div className="flex items-center gap-2">
+                          <Key size={13} className="text-slate-400 shrink-0" />
+                          <span className="font-medium text-slate-700">Key #{box.keyNumber}</span>
+                        </div>
+                      )}
                       <div className="flex items-center gap-2">
                         <Phone size={13} className="text-slate-400 shrink-0" />
                         <a href={`tel:${box.donorPhone}`} className="hover:text-primary-600 transition-colors">
@@ -527,6 +535,9 @@ export default function CollectorDashboard() {
             <div className="bg-surface-50 rounded-xl p-4 space-y-2">
               <div className="flex justify-between"><span className="text-xs text-slate-400">Box Name</span><span className="text-sm font-medium text-slate-900">{scannedBox.name}</span></div>
               <div className="flex justify-between"><span className="text-xs text-slate-400">Donor Phone</span><span className="text-sm text-slate-600">{scannedBox.donorPhone}</span></div>
+              {scannedBox.keyNumber && (
+                <div className="flex justify-between"><span className="text-xs text-slate-400">Key Number</span><span className="text-sm font-medium text-slate-900">{scannedBox.keyNumber}</span></div>
+              )}
               <div className="flex justify-between items-start"><span className="text-xs text-slate-400">Address</span><span className="text-sm text-slate-600 text-right max-w-[60%]">{scannedBox.address}</span></div>
               {scannedBox.mapLink && (
                 <div className="flex justify-between"><span className="text-xs text-slate-400">Map</span>

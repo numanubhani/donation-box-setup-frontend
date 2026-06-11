@@ -44,6 +44,7 @@ export default function BoxesPage() {
     boxNumber: getNextBoxNumber(boxes),
     donorName: '',
     donorPhone: '',
+    keyNumber: '',
     address: '',
     mapLink: '',
   });
@@ -55,6 +56,7 @@ export default function BoxesPage() {
       const matchSearch =
         box.name.toLowerCase().includes(search.toLowerCase()) ||
         box.donorName.toLowerCase().includes(search.toLowerCase()) ||
+        (box.keyNumber || '').toLowerCase().includes(search.toLowerCase()) ||
         box.address.toLowerCase().includes(search.toLowerCase()) ||
         box.boxNumber.toString().includes(search);
       const matchStatus = statusFilter === 'all' || box.status === statusFilter;
@@ -76,6 +78,7 @@ export default function BoxesPage() {
     if (!form.name.trim()) errors.name = 'Box name is required';
     if (!form.donorName.trim()) errors.donorName = 'Donor name is required';
     if (!form.donorPhone.trim()) errors.donorPhone = 'Donor phone is required';
+    if (!form.keyNumber.trim()) errors.keyNumber = 'Key number is required';
     if (!form.address.trim()) errors.address = 'Address is required';
     if (form.mapLink && !form.mapLink.startsWith('http')) errors.mapLink = 'Enter a valid URL';
     setFormErrors(errors);
@@ -90,6 +93,7 @@ export default function BoxesPage() {
         boxNumber: form.boxNumber,
         donorName: form.donorName,
         donorPhone: form.donorPhone,
+        keyNumber: form.keyNumber,
         address: form.address,
         mapLink: form.mapLink || undefined,
         status: 'active',
@@ -108,6 +112,7 @@ export default function BoxesPage() {
       boxNumber: box.boxNumber,
       donorName: box.donorName,
       donorPhone: box.donorPhone,
+      keyNumber: box.keyNumber || '',
       address: box.address,
       mapLink: box.mapLink || '',
     });
@@ -122,6 +127,7 @@ export default function BoxesPage() {
       boxNumber: form.boxNumber,
       donorName: form.donorName,
       donorPhone: form.donorPhone,
+      keyNumber: form.keyNumber,
       address: form.address,
       mapLink: form.mapLink || undefined,
     });
@@ -136,6 +142,7 @@ export default function BoxesPage() {
       boxNumber: getNextBoxNumber(boxes),
       donorName: '',
       donorPhone: '',
+      keyNumber: '',
       address: '',
       mapLink: '',
     });
@@ -191,6 +198,18 @@ export default function BoxesPage() {
           onChange={(e) => setForm({ ...form, donorPhone: e.target.value })}
         />
         {formErrors.donorPhone && <p className="text-xs text-red-500 mt-1">{formErrors.donorPhone}</p>}
+      </div>
+      <div>
+        <label className="label">Key Number <span className="text-red-500">*</span></label>
+        <input
+          type="text"
+          className="input-field"
+          placeholder="e.g. K-42"
+          value={form.keyNumber}
+          onChange={(e) => setForm({ ...form, keyNumber: e.target.value })}
+        />
+        <p className="text-[10px] text-slate-400 mt-1">Physical key tag — helps collectors find the right key</p>
+        {formErrors.keyNumber && <p className="text-xs text-red-500 mt-1">{formErrors.keyNumber}</p>}
       </div>
       <div>
         <label className="label">Address <span className="text-red-500">*</span></label>
@@ -311,6 +330,7 @@ export default function BoxesPage() {
               <tr className="bg-surface-50 border-b border-slate-200">
                 <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Box Name</th>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider hidden sm:table-cell">#</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider hidden sm:table-cell">Key</th>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider hidden md:table-cell">Address</th>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider hidden lg:table-cell">Map</th>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
@@ -328,6 +348,7 @@ export default function BoxesPage() {
                     </div>
                   </td>
                   <td className="px-4 py-3 text-slate-600 hidden sm:table-cell">{box.boxNumber}</td>
+                  <td className="px-4 py-3 text-slate-600 hidden sm:table-cell font-medium">{box.keyNumber || '—'}</td>
                   <td className="px-4 py-3 text-slate-500 text-xs max-w-[200px] truncate hidden md:table-cell">{box.address}</td>
                   <td className="px-4 py-3 hidden lg:table-cell">
                     {box.mapLink ? (

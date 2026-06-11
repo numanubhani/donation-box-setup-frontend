@@ -12,6 +12,7 @@ export interface Box {
   boxNumber: number;
   donorName: string;
   donorPhone: string;
+  keyNumber: string;
   address: string;
   mapLink?: string;
   qrCodeData: string;

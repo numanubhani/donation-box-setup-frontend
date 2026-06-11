@@ -97,7 +97,7 @@ export default function AdminSettingsPage() {
           <div>
             <h2 className="text-lg font-semibold text-slate-900 font-sora">SMS Settings (Twilio)</h2>
             <p className="text-sm text-slate-500 mt-1">
-              Configure Twilio once — donors automatically receive a thank-you SMS every time a collector submits a collection.
+              Configure Twilio once — donors automatically receive a thank-you SMS when a collection of PKR 3,000 or more is recorded.
             </p>
           </div>
         </div>
@@ -107,7 +107,7 @@ export default function AdminSettingsPage() {
             <div>
               <p className="text-sm font-semibold text-slate-800">Enable donor SMS notifications</p>
               <p className="text-xs text-slate-500 mt-0.5">
-                Send thank-you messages when a collector records a donation
+                Send thank-you messages for collections of PKR 3,000 or more
               </p>
             </div>
             <input

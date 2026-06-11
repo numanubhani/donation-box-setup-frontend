@@ -10,6 +10,7 @@ import {
   Clock,
   ChevronDown,
   ChevronUp,
+  Key,
 } from 'lucide-react';
 import { addMonths, startOfMonth, endOfMonth, eachDayOfInterval, getDay, getDate, format } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -54,6 +55,7 @@ export default function CollectorUpcomingPage() {
         boxName: string;
         donorName: string;
         donorPhone: string;
+        keyNumber: string;
         address: string;
         mapLink?: string;
         schedule: string;
@@ -83,6 +85,7 @@ export default function CollectorUpcomingPage() {
               boxName: box.name,
               donorName: box.donorName,
               donorPhone: box.donorPhone,
+              keyNumber: box.keyNumber,
               address: box.address,
               mapLink: box.mapLink,
               schedule: assignment.schedule,
@@ -192,6 +195,12 @@ export default function CollectorUpcomingPage() {
                             </div>
 
                             <div className="flex flex-col justify-between items-start md:items-end gap-2">
+                              {task.keyNumber && (
+                                <div className="flex items-center gap-1.5 text-xs font-medium text-slate-700">
+                                  <Key size={12} className="text-slate-400" />
+                                  <span>Key #{task.keyNumber}</span>
+                                </div>
+                              )}
                               <div className="flex items-center gap-1.5 text-xs text-slate-600">
                                 <Phone size={12} className="text-slate-400" />
                                 <span>{task.donorPhone}</span>
