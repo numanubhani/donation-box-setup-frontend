@@ -6,6 +6,7 @@ import { formatCurrency, formatDate } from '@/lib/utils';
 import { calculateFinancials } from '@/lib/finance';
 import StatusBadge, { getStatusVariant, getStatusLabel } from '@/components/shared/StatusBadge';
 import Modal from '@/components/shared/Modal';
+import QRScanner from '@/components/shared/QRScanner';
 import StatsCard from '@/components/shared/StatsCard';
 import {
   QrCode, TrendingUp, Receipt, AlertTriangle, Camera,
@@ -102,9 +103,25 @@ export default function CollectorDashboard() {
   );
 
   // QR scanning
+  const resolveBoxFromCode = (code: string) => {
+    const trimmed = code.trim();
+    const upper = trimmed.toUpperCase();
+    return boxes.find(
+      (b) => b.qrCodeData.toUpperCase() === upper || b.id.toUpperCase() === upper
+    );
+  };
+
+  const handleQRScan = (code: string) => {
+    const box = resolveBoxFromCode(code);
+    if (!box) {
+      showToast('Box not found. Check the code and try again.', 'error');
+      return;
+    }
+    processScannedBox(box);
+  };
+
   const handleManualEntry = () => {
-    const code = manualCode.trim().toUpperCase();
-    const box = boxes.find((b) => b.qrCodeData === code || b.id === code);
+    const box = resolveBoxFromCode(manualCode);
     if (!box) {
       showToast('Box not found. Check the code and try again.', 'error');
       return;
@@ -474,13 +491,7 @@ export default function CollectorDashboard() {
       {/* QR Scanner Modal */}
       <Modal isOpen={showQRModal} onClose={() => setShowQRModal(false)} title="Scan QR Code" size="md">
         <div className="space-y-4">
-          <div className="bg-slate-100 rounded-xl aspect-video flex items-center justify-center">
-            <div className="text-center">
-              <Camera size={48} className="text-slate-300 mx-auto mb-2" />
-              <p className="text-sm text-slate-400">Camera scanner requires HTTPS</p>
-              <p className="text-xs text-slate-400">Use manual entry below</p>
-            </div>
-          </div>
+          <QRScanner active={showQRModal} onScan={handleQRScan} />
           <div className="text-center">
             <p className="text-sm text-slate-500 mb-3">Or enter code manually</p>
             <div className="flex gap-2">

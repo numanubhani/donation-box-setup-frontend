@@ -60,6 +60,7 @@ interface AppState {
 
   // Collection actions
   addCollection: (collection: Omit<Collection, 'id' | 'createdAt'>) => Promise<{ success: boolean; smsSent?: boolean; smsReason?: string; error?: string }>;
+  updateCollection: (id: string, updates: Partial<Omit<Collection, 'id' | 'createdAt'>>) => Promise<{ success: boolean; error?: string }>;
 
   // Assignment actions
   addAssignment: (assignment: Omit<Assignment, 'id' | 'createdAt'>) => Promise<void>;
@@ -499,6 +500,28 @@ export const useAppStore = create<AppState>()((set, get) => ({
     }
 
     return { success: true, smsSent, smsReason };
+  },
+
+  updateCollection: async (id, updates) => {
+    try {
+      const payload = { ...updates };
+      if (payload.collectionDate && !payload.collectionDate.includes('T')) {
+        payload.collectionDate = `${payload.collectionDate}T12:00:00Z`;
+      }
+      const res = await apiFetch(`${API_BASE}/collections/${id}/`, {
+        method: 'PATCH',
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        return { success: false, error: data.error || 'Failed to update collection' };
+      }
+      await get().fetchData();
+      return { success: true };
+    } catch (e) {
+      console.error('Failed to update collection', e);
+      return { success: false, error: 'Could not connect to the server' };
+    }
   },
 
   addAssignment: async (assignmentData) => {

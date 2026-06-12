@@ -6,7 +6,7 @@ import StatusBadge, { getStatusVariant, getStatusLabel } from '@/components/shar
 import Modal from '@/components/shared/Modal';
 import ConfirmDialog from '@/components/shared/ConfirmDialog';
 import QRCodeCard from '@/components/shared/QRCodeCard';
-import { QRCodeSVG } from 'qrcode.react';
+import QRPrintSheet from '@/components/shared/QRPrintSheet';
 import { getNextBoxNumber } from '@/lib/utils';
 import {
   Plus,
@@ -18,6 +18,7 @@ import {
   MapPin,
   Check,
   Package,
+  Printer,
 } from 'lucide-react';
 import { Box } from '@/types';
 
@@ -477,22 +478,29 @@ export default function BoxesPage() {
       <Modal
         isOpen={showAllQRs}
         onClose={() => setShowAllQRs(false)}
-        title="All QR Codes"
+        title="All QR Codes (A4 Print)"
         size="xl"
       >
-        <div className="text-sm text-slate-500 mb-4">
-          Print this page to get all QR codes. Use Ctrl/Cmd + P.
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 no-print">
+          <p className="text-sm text-slate-500">
+            {boxes.filter((b) => b.status === 'active').length} active boxes · 12 per A4 page
+          </p>
+          <button
+            type="button"
+            onClick={() => window.print()}
+            className="btn-primary text-sm"
+          >
+            <Printer size={16} />
+            Print / Save as PDF
+          </button>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {boxes.filter(b => b.status === 'active').map((box) => (
-            <div key={box.id} className="border border-slate-200 rounded-xl p-3 flex flex-col items-center gap-2">
-              <QRCodeSVG value={box.qrCodeData} size={100} level="M" bgColor="#FFFFFF" fgColor="#0F172A" />
-              <p className="text-xs font-semibold text-slate-900 text-center font-sora">{box.name}</p>
-              <p className="text-[10px] text-slate-400">#{box.boxNumber}</p>
-            </div>
-          ))}
+        <div className="no-print max-h-[60vh] overflow-y-auto">
+          <QRPrintSheet boxes={boxes} preview />
         </div>
       </Modal>
+
+      {/* Hidden A4 print layout (shown only when printing) */}
+      {showAllQRs && <QRPrintSheet boxes={boxes} />}
 
       {/* Delete Confirm */}
       <ConfirmDialog

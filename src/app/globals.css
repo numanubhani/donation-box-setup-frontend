@@ -120,6 +120,164 @@
   @apply bg-slate-400;
 }
 
+/* QR camera scanner */
+.qr-scanner video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.qr-scanner #qr-shaded-region {
+  border-color: rgba(16, 185, 129, 0.85) !important;
+}
+
+/* QR camera scanner */
+.qr-scanner video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.qr-scanner #qr-shaded-region {
+  border-color: rgba(16, 185, 129, 0.85) !important;
+}
+
+/* A4 QR code print layout */
+@media print {
+  @page qr-a4 {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
+  .qr-print-sheet {
+    page: qr-a4;
+  }
+
+  .qr-print-page {
+    page-break-after: always;
+    break-after: page;
+    min-height: 277mm;
+    padding: 0;
+  }
+
+  .qr-print-page:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
+
+  .qr-print-header {
+    text-align: center;
+    margin-bottom: 6mm;
+    padding-bottom: 3mm;
+    border-bottom: 1pt solid #cbd5e1;
+  }
+
+  .qr-print-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 14pt;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+  }
+
+  .qr-print-subtitle {
+    font-size: 9pt;
+    color: #64748b;
+    margin: 2mm 0 0;
+  }
+
+  .qr-print-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 4mm;
+    height: 250mm;
+  }
+
+  .qr-print-item {
+    border: 0.5pt solid #cbd5e1;
+    border-radius: 2mm;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3mm;
+    text-align: center;
+  }
+
+  .qr-print-box-name {
+    font-family: 'Sora', sans-serif;
+    font-size: 8pt;
+    font-weight: 600;
+    color: #0f172a;
+    margin: 2mm 0 0;
+    line-height: 1.2;
+  }
+
+  .qr-print-box-meta {
+    font-size: 7pt;
+    color: #64748b;
+    margin: 1mm 0 0;
+  }
+}
+
+.qr-print-preview .qr-print-page {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.qr-print-preview .qr-print-header {
+  text-align: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.qr-print-preview .qr-print-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.qr-print-preview .qr-print-subtitle {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+.qr-print-preview .qr-print-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.qr-print-preview .qr-print-item {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.qr-print-preview .qr-print-box-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: #0f172a;
+  margin-top: 6px;
+}
+
+.qr-print-preview .qr-print-box-meta {
+  font-size: 10px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
 /* QR Code & Report Print Styles */
 @media print {
   @page {
